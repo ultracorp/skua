@@ -51,6 +51,49 @@ test.describe("Live Dashboard @critical", () => {
   });
 });
 
+test.describe("Live JSMpeg player @critical", () => {
+  // jsmpeg's Player adds this.showHide.bind(this) as a visibilitychange
+  // listener on document and never removes it, so every unmounted player
+  // stayed reachable with its canvas, WebGL context and socket.
+  test("leaving the live view leaves no showHide listener on document", async ({
+    frigateApp,
+  }) => {
+    const page = frigateApp.page;
+    await page.routeWebSocket("**/live/jsmpeg/**", () => {});
+    const cdp = await page.context().newCDPSession(page);
+    const documentListenerNames = async () => {
+      const { result } = await cdp.send("Runtime.evaluate", {
+        expression: "document",
+        objectGroup: "listeners",
+      });
+      const { listeners } = await cdp.send("DOMDebugger.getEventListeners", {
+        objectId: result.objectId!,
+      });
+      return Promise.all(
+        listeners
+          .filter((l) => l.type === "visibilitychange")
+          .map(async (l) => {
+            const { result } = await cdp.send("Runtime.callFunctionOn", {
+              objectId: l.handler!.objectId!,
+              functionDeclaration: "function () { return this.name; }",
+              returnByValue: true,
+            });
+            return result.value;
+          }),
+      );
+    };
+
+    await frigateApp.goto("/#front_door");
+    await expect(page.locator(".jsmpeg canvas")).toHaveCount(1);
+    const live = new LivePage(page, !frigateApp.isMobile);
+    await live.navigateTo("/review");
+    await expect(page).toHaveURL(/\/review/);
+    await expect(page.locator(".jsmpeg canvas")).toHaveCount(0);
+
+    expect(await documentListenerNames()).not.toContain("showHide");
+  });
+});
+
 test.describe("Live Single Camera — desktop controls @critical", () => {
   test.skip(
     ({ frigateApp }) => frigateApp.isMobile,

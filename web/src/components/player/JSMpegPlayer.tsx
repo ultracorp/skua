@@ -135,6 +135,10 @@ export default function JSMpegPlayer({
           {
             protocols: [],
             audio: false,
+            // jsmpeg never removes its document visibilitychange listener,
+            // which keeps every destroyed player alive. Hidden tabs stop
+            // requestAnimationFrame, and with it decoding, anyway.
+            pauseWhenHidden: false,
             disableGl: !useWebGL,
             disableWebAssembly: !useWebGL,
             videoBufferSize: 1024 * 1024 * 4,
