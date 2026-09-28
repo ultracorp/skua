@@ -1,16 +1,14 @@
-_Please read the [contributing guidelines](https://github.com/blakeblackshear/frigate/blob/dev/CONTRIBUTING.md) and the [AI policy](https://github.com/blakeblackshear/frigate/blob/dev/AI_POLICY.md) before submitting a PR. Every PR must be read and submitted by a person, and PRs that appear to be unreviewed AI output will be closed without review._
-
 ## Proposed change
 
 <!--
   Thank you!
 
-  Describe what this pull request does and how it will benefit users of Frigate.
+  Describe what this pull request does and how it will benefit users of Skua.
   Please describe in detail any considerations, breaking changes, etc.
 
   If you're introducing a new feature or significantly refactoring existing functionality,
   we encourage you to start a discussion first. This helps ensure your idea aligns with
-  Frigate's development goals.
+  Skua's direction.
 -->
 
 ## Type of change
@@ -46,25 +44,9 @@ _Please read the [contributing guidelines](https://github.com/blakeblackshear/fr
 - [ ] There is an existing feature request or discussion with community interest for this change.
   - Link:
 
-## AI disclosure
+## AI
 
-<!--
-  We welcome contributions that use AI tools, but we need to understand your relationship
-  with the code you're submitting. See our AI usage policy in CONTRIBUTING.md for details.
-
-  Be honest — this won't disqualify your PR. Trust matters more than method.
--->
-
-- [ ] No AI tools were used in this PR.
-- [ ] AI tools were used in this PR. Details below:
-
-**AI tool(s) used** (e.g., Claude, Copilot, ChatGPT, Cursor):
-
-**How AI was used** (e.g., code generation, code review, debugging, documentation):
-
-**Extent of AI involvement** (e.g., generated entire implementation, assisted with specific functions, suggested fixes):
-
-**Human oversight**: Describe what manual review, testing, and validation you performed on the AI-generated portions.
+<!-- Optional: which model or tool helped, if any. -->
 
 ## Checklist
 
